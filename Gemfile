@@ -15,6 +15,9 @@ gem "puma", "~> 5.0"
 # JSON Serializer
 gem 'jsonapi-serializer'
 
+# Enable cors gem
+gem "rack-cors"
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
