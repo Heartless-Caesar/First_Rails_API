@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
+  resources :books
   namespace :api do
     namespace :v1 do
-      resources :books
-      resources :users
+          resources :users, only: [:create]
+      post '/login', to: 'users#login'
     end
   end
 
@@ -10,4 +11,5 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+
 end
