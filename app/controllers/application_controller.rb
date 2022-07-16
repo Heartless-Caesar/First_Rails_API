@@ -1,3 +1,5 @@
 class ApplicationController < ActionController::API
-  puts "Hello"
+  def encode_token(payload)
+    JWT.encode(payload,"secret")
+  end
 end
