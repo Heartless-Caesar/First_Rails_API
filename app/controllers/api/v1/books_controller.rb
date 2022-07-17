@@ -6,7 +6,7 @@ class Api::V1::BooksController < ApplicationController
 
   # GET /books
   def index
-    @books = Book.all
+    @books = @user.books.all
 
     render json: @books
   end
@@ -18,10 +18,10 @@ class Api::V1::BooksController < ApplicationController
 
   # POST /books
   def create
-    @book = Book.new(book_params)
+    @book = Book.create(book_params.merge(user: @user))
 
     if @book.save
-      render json: @book, status: :created, location: @book
+      render json: @book, status: :created
     else
       render json: @book.errors, status: :unprocessable_entity
     end
@@ -29,10 +29,12 @@ class Api::V1::BooksController < ApplicationController
 
   # PATCH/PUT /books/1
   def update
-    if @book.update(book_params)
+    current_book = Book.find_by(id: @book.id)
+    if current_book.user_id == @user.id
+      @book.update(book_params)
       render json: @book
     else
-      render json: @book.errors, status: :unprocessable_entity
+      render json: { msg: "This book wasn't created by the current user" }
     end
   end
 
